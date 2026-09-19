@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block title %}{{ item.title }} | {{ site_name }}{% endblock %}
+{% block content %}
+<section class="detail-hero" style="background-image: linear-gradient(90deg, rgba(7,9,16,.97) 0%, rgba(7,9,16,.82) 42%, rgba(7,9,16,.30) 100%), url('{{ item.backdrop_url }}');">
+  <div class="detail-copy"><div class="eyebrow">{{ item.kind == 'movie' and 'فیلم' or 'سریال' }}{% if item.is_premium %} • ویژه{% endif %}</div><h1>{{ item.title }}</h1><div class="pill-row"><span>{{ item.year or '—' }}</span><span>{{ item.genre }}</span><span>★ {{ '%.1f'|format(item.rating) }}</span>{% if item.duration_minutes %}<span>{{ item.duration_minutes }} دقیقه</span>{% endif %}</div><p>{{ item.description }}</p><div class="hero-actions"><a class="btn btn-primary btn-lg" href="{{ url_for('main.watch', slug=item.slug) }}">▶ تماشا</a>{% if current_user.is_authenticated %}<form method="post" action="{{ url_for('main.favorite', content_id=item.id) }}"><button class="btn btn-ghost btn-lg">{{ '♥ حذف از علاقه‌مندی' if favorite else '♡ افزودن به علاقه‌مندی' }}</button></form>{% endif %}</div></div>
+</section>
+{% if item.episodes %}<section class="episode-section"><div class="section-head"><div><h2>قسمت‌ها</h2><p>{{ item.episodes|length }} قسمت</p></div></div><div class="episode-list">{% for ep in item.episodes|sort(attribute='episode_number') %}<a class="episode" href="{{ url_for('main.watch', slug=item.slug, episode=ep.id) }}"><span class="ep-num">{{ ep.episode_number }}</span><span><strong>{{ ep.title }}</strong><small>{{ ep.duration_minutes or '—' }} دقیقه{% if ep.is_premium %} • VIP{% endif %}</small></span><span>▶</span></a>{% endfor %}</div></section>{% endif %}
+{% endblock %}

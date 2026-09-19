@@ -1,0 +1,26 @@
+{% extends 'admin/layout.html' %}
+{% block title %}افزودن قسمت | مدیریت{% endblock %}
+{% block admin_content %}
+    <div class="form-page">
+      <div class="section-head"><div><div class="eyebrow">مدیریت قسمت‌ها</div><h1>افزودن قسمت سریال</h1><p>برای هر قسمت می‌توانید چند کیفیت ویدئو را مستقیماً آپلود کنید.</p></div></div>
+      <form method="post" enctype="multipart/form-data" class="admin-form">
+        <div class="form-grid">
+          <label>سریال<select name="series_id" required>{% for item in series %}<option value="{{ item.id }}">{{ item.title }}</option>{% endfor %}</select></label>
+          <label>فصل<input type="number" name="season_number" value="1" min="1"></label>
+          <label>شماره قسمت<input type="number" name="episode_number" value="1" min="1"></label>
+          <label>عنوان قسمت<input name="title" required></label>
+          <label>مدت زمان (دقیقه)<input type="number" name="duration_minutes" min="0"></label>
+        </div>
+        <label>توضیحات<textarea name="description" rows="5"></textarea></label>
+        <div class="quality-grid">
+          {% for quality in qualities %}{% set number = quality.replace('p','') %}
+          <div class="quality-card"><div class="quality-head"><strong>{{ quality }}</strong><span>آپلود مستقیم</span></div>
+            <label class="file-picker">انتخاب ویدئوی {{ quality }}<input type="file" name="video_{{ number }}" accept="video/*"></label>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="checks"><label><input type="checkbox" name="is_premium"> این قسمت ویژه است</label></div>
+        <button class="btn btn-primary btn-lg">آپلود و ذخیره قسمت</button>
+      </form>
+</div>
+{% endblock %}

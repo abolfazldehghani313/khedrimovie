@@ -1,0 +1,29 @@
+{% extends 'admin/layout.html' %}
+{% block admin_content %}
+<div class="admin-head">
+  <div><h1>تنظیمات پلتفرم</h1><p>نام، متن‌ها و اطلاعات اصلی «نیاز ویدئو» را بدون تغییر کد مدیریت کنید.</p></div>
+</div>
+<section class="form-page">
+  <form method="post" class="admin-form">
+    <div class="settings-section">
+      <h2>هویت پلتفرم</h2>
+      <p>این اطلاعات در عنوان سایت، سربرگ و بخش‌های اصلی نمایش داده می‌شود.</p>
+      <div class="form-grid">
+        <label>نام پلتفرم<input name="setting_site_name" value="{{ values.get('site_name','نیاز ویدئو') }}" required></label>
+        <label>رنگ اصلی<input type="text" name="setting_primary_color" value="{{ values.get('primary_color','#7c5cff') }}" placeholder="#7c5cff"></label>
+        <label>شماره تماس<input name="setting_contact_phone" value="{{ values.get('contact_phone','') }}" placeholder="اختیاری"></label>
+        <label>ایمیل پشتیبانی<input type="email" name="setting_contact_email" value="{{ values.get('contact_email','') }}" placeholder="اختیاری"></label>
+      </div>
+    </div>
+
+    <div class="settings-section">
+      <h2>متن‌های اصلی سایت</h2>
+      <label>توضیح کوتاه پلتفرم<textarea name="setting_description" rows="3">{{ values.get('description','') }}</textarea></label>
+      <label>عنوان بخش اصلی صفحه خانه<textarea name="setting_hero_title" rows="2">{{ values.get('hero_title','فیلم و سریال موردعلاقه‌ات را همین حالا پیدا کن.') }}</textarea></label>
+      <label>توضیح بخش اصلی صفحه خانه<textarea name="setting_hero_description" rows="3">{{ values.get('hero_description','مجموعه‌ای از فیلم‌ها و سریال‌ها را با کیفیت دلخواه تماشا و دانلود کنید.') }}</textarea></label>
+    </div>
+
+    <button class="btn btn-primary btn-lg" type="submit">ذخیره همه تنظیمات</button>
+  </form>
+</section>
+{% endblock %}

@@ -1,0 +1,4 @@
+<article class="content-card">
+  <a href="{{ url_for('main.title_detail', slug=item.slug) }}" class="poster-wrap"><img src="{{ item.poster_url }}" alt="{{ item.title }}"><span class="rating">★ {{ '%.1f'|format(item.rating) }}</span>{% if item.is_premium %}<span class="premium">VIP</span>{% endif %}</a>
+  <div class="card-body"><div class="muted">{{ item.kind == 'movie' and 'فیلم' or 'سریال' }} • {{ item.genre }}</div><a class="card-title" href="{{ url_for('main.title_detail', slug=item.slug) }}">{{ item.title }}</a><div class="card-meta">{{ item.year or '—' }}{% if item.duration_minutes %} • {{ item.duration_minutes }} دقیقه{% endif %}</div></div>
+</article>

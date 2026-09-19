@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block title %}پروفایل | {{ site_name }}{% endblock %}
+{% block content %}
+<section class="profile-head"><div class="profile-avatar">{{ current_user.name[:1]|upper }}</div><div><div class="eyebrow">حساب کاربری</div><h1>{{ current_user.name }}</h1><p>{{ current_user.email }}</p>{% if current_user.premium %}<span class="status ok">اشتراک فعال تا {{ current_user.active_subscription.ends_at.strftime('%Y/%m/%d') }}</span>{% else %}<span class="status">اشتراک فعال ندارید</span>{% endif %}</div>{% if current_user.is_admin %}<a class="btn btn-primary" href="{{ url_for('admin.dashboard') }}">پنل مدیریت</a>{% endif %}</section>
+<div class="split-sections"><section><div class="section-head"><div><h2>علاقه‌مندی‌ها</h2><p>موارد ذخیره‌شده</p></div></div><div class="mini-grid">{% for fav in favs %}{% set item=fav.content %}{% include 'partials/card.html' %}{% else %}<div class="empty">هنوز چیزی ذخیره نکرده‌اید.</div>{% endfor %}</div></section><section><div class="section-head"><div><h2>تاریخچه تماشا</h2><p>آخرین محتواها</p></div></div><div class="history-list">{% for h in history %}<a href="{{ url_for('main.watch', slug=h.content.slug) }}"><span>{{ h.content.title }}</span><small>{{ h.updated_at.strftime('%Y/%m/%d %H:%M') }}</small></a>{% else %}<div class="empty">تاریخچه‌ای ندارید.</div>{% endfor %}</div></section></div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}{{ site_name }} | {{ site_description }}{% endblock %}
+{% block content %}
+<section class="hero-grid">
+  <div class="hero-copy">
+    <div class="eyebrow">تماشای آنلاین با تجربه‌ای ساده و حرفه‌ای</div>
+    <h1>{{ hero_title|default('فیلم و سریال موردعلاقه‌ات را همین حالا پیدا کن.') }}</h1>
+    <p>{{ hero_description|default(site_description) }}</p>
+    <div class="hero-actions"><a class="btn btn-primary btn-lg" href="{{ url_for('main.movies') }}">شروع تماشا</a><a class="btn btn-ghost btn-lg" href="{{ url_for('main.subscriptions') }}">مشاهده اشتراک‌ها</a></div>
+  </div>
+  <div class="hero-art" style="background-image: linear-gradient(90deg, rgba(8,10,18,.15), rgba(8,10,18,.05)), url('{{ featured[0].backdrop_url if featured else '' }}');"></div>
+</section>
+<section class="toolbar" id="search"><div class="section-title"><span>جستجو و فیلتر</span><small>بر اساس ژانر یا عبارت</small></div><form class="filter-row" action="{{ url_for('main.home') }}"><input name="q" value="{{ q }}" placeholder="نام فیلم یا سریال..."><select name="genre"><option value="">همه ژانرها</option>{% for g in genres %}<option value="{{ g }}" {% if genre==g %}selected{% endif %}>{{ g }}</option>{% endfor %}</select><button class="btn btn-primary">اعمال فیلتر</button></form></section>
+<section><div class="section-head"><div><h2>فیلم‌های پیشنهادی</h2><p>جدیدترین انتخاب‌ها برای شروع تماشا</p></div><a href="{{ url_for('main.movies') }}">مشاهده همه</a></div><div class="card-grid">{% for item in movies %}{% include 'partials/card.html' %}{% else %}<div class="empty">محتوایی پیدا نشد.</div>{% endfor %}</div></section>
+<section><div class="section-head"><div><h2>سریال‌ها</h2><p>سریال‌های روز و منتخب</p></div><a href="{{ url_for('main.series') }}">مشاهده همه</a></div><div class="card-grid">{% for item in series %}{% include 'partials/card.html' %}{% else %}<div class="empty">فعلاً سریالی ثبت نشده است.</div>{% endfor %}</div></section>
+{% endblock %}

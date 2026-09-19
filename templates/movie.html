@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block title %}فیلم‌ها | {{ site_name }}{% endblock %}
+{% block content %}
+<div class="page-heading"><div><div class="eyebrow">VOD</div><h1>{{ title }}</h1><p>فیلم‌های منتشرشده روی پلتفرم</p></div></div>
+<div class="card-grid">{% for item in items %}{% include 'partials/card.html' %}{% else %}<div class="empty">فعلاً فیلمی ثبت نشده است.</div>{% endfor %}</div>
+{% endblock %}

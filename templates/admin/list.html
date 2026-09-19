@@ -1,0 +1,15 @@
+{% extends 'admin/layout.html' %}
+{% block admin_content %}
+<div class="admin-head"><div><h1>{{ title }}</h1><p>مدیریت، ویرایش، فایل‌ها و انتشار محتوا</p></div><a class="btn btn-primary" href="{{ url_for('admin.new_content', kind=type) }}">+ افزودن {{ 'فیلم' if type == 'movie' else 'سریال' }}</a></div>
+<section class="admin-table-card"><div class="table-wrap"><table><thead><tr><th>پوستر</th><th>عنوان</th><th>ژانر</th><th>سال</th><th>کیفیت‌های ویدئو</th><th>ویژه</th><th>انتشار</th><th>عملیات</th></tr></thead><tbody>
+{% for i in items %}
+<tr>
+  <td>{% if i.poster_url %}<img class="admin-thumb" src="{{ i.poster_url }}" alt="پوستر {{ i.title }}">{% else %}بدون پوستر{% endif %}</td>
+  <td>{{ i.title }}</td><td>{{ i.genre }}</td><td>{{ i.year or '-' }}</td>
+  <td>{% set vs=i.video_variants|selectattr('episode_id','equalto',none)|list %}{% if vs %}{% for v in vs|sort(attribute='quality') %}<span class="quality-badge">{{ v.quality }}</span>{% endfor %}{% else %}آپلود نشده{% endif %}</td>
+  <td>{{ 'بله' if i.is_premium else 'خیر' }}</td><td>{{ 'بله' if i.is_published else 'خیر' }}</td>
+  <td><a href="{{ url_for('admin.edit_content', content_id=i.id) }}">ویرایش</a> <form class="inline-form" method="post" action="{{ url_for('admin.delete_content', content_id=i.id) }}"><button onclick="return confirm('این محتوا و فایل‌های آن حذف شود؟')">حذف</button></form></td>
+</tr>
+{% else %}<tr><td colspan="8">هنوز محتوایی ثبت نشده است.</td></tr>{% endfor %}
+</tbody></table></div></section>
+{% endblock %}

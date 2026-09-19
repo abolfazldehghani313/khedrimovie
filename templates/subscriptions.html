@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block title %}اشتراک‌ها | {{ site_name }}{% endblock %}
+{% block content %}
+<div class="page-heading"><div><div class="eyebrow">PREMIUM</div><h1>اشتراک مناسب خودت را انتخاب کن</h1><p>فعال‌سازی نسخه V1 به‌صورت آزمایشی انجام می‌شود و پرداخت واقعی درگاه در V2 قابل اتصال است.</p></div></div>
+<div class="plans-grid">{% for plan in plans %}<article class="plan-card"><span class="plan-tag">{{ plan.duration_days }} روز</span><h2>{{ plan.name }}</h2><div class="price">{{ '{:,}'.format(plan.price) }} <small>تومان</small></div><p>{{ plan.description }}</p><ul><li>دسترسی به محتوای VIP</li><li>پخش آنلاین بدون محدودیت منطقی</li><li>حفظ تاریخچه تماشا</li></ul>{% if current_user.is_authenticated %}<form method="post" action="{{ url_for('main.subscribe', plan_id=plan.id) }}"><button class="btn btn-primary btn-block">فعال‌سازی آزمایشی</button></form>{% else %}<a class="btn btn-primary btn-block" href="{{ url_for('auth.login', next=url_for('main.subscriptions')) }}">ورود برای فعال‌سازی</a>{% endif %}</article>{% endfor %}</div>
+{% endblock %}

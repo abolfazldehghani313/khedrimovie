@@ -1,0 +1,14 @@
+{% extends 'admin/layout.html' %}
+{% block admin_content %}
+<div class="admin-head"><div><h1>فصل‌ها و قسمت‌ها</h1><p>مدیریت قسمت‌های سریال و فایل‌های ویدئویی</p></div></div>
+<section class="form-page">
+  <div class="section-head"><div><h2>افزودن قسمت جدید</h2><p>برای هر قسمت می‌توانید کیفیت‌های مختلف ویدئو را مستقیم آپلود کنید.</p></div></div>
+  <a class="btn btn-primary" href="{{ url_for('admin.new_episode') }}">افزودن قسمت</a>
+</section>
+<section class="admin-table-card" id="افزودن">
+  <div class="table-wrap"><table><thead><tr><th>سریال</th><th>فصل</th><th>قسمت</th><th>عنوان</th><th>کیفیت‌های موجود</th></tr></thead>
+  <tbody>{% for e in episodes %}
+    <tr><td>{{ e.series.title }}</td><td>{{ e.season_number }}</td><td>{{ e.episode_number }}</td><td>{{ e.title }}</td><td>{% set vs=e.video_variants %}{% if vs %}{% for v in vs|sort(attribute='quality') %}<span class="quality-badge">{{ v.quality }}</span>{% endfor %}{% else %}ثبت نشده{% endif %}</td></tr>
+  {% else %}<tr><td colspan="5">هنوز قسمتی ثبت نشده است.</td></tr>{% endfor %}</tbody></table></div>
+</section>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}پخش {{ item.title }} | {{ site_name }}{% endblock %}
+{% block content %}
+<section class="watch-layout">
+  <div class="player-panel">
+    <div class="video-shell">
+      {% if video_url %}
+        <video controls playsinline preload="metadata" poster="{{ item.backdrop_url }}">
+          <source src="{{ video_url }}">
+          مرورگر شما از پخش ویدئو پشتیبانی نمی‌کند.
+        </video>
+      {% else %}
+        <div class="empty-player">هنوز فایل ویدئویی برای این عنوان قرار نگرفته است.</div>
+      {% endif %}
+    </div>
+    <div class="watch-meta">
+      <div>
+        <div class="eyebrow">در حال پخش</div>
+        <h1>{{ episode.title if episode else item.title }}</h1>
+        <p>{{ episode.description if episode else item.description }}</p>
+      </div>
+      <a class="btn btn-ghost" href="{{ url_for('main.title_detail', slug=item.slug) }}">بازگشت به صفحه محتوا</a>
+    </div>
+
+    {% if variants %}
+    <section class="quality-downloads">
+      <div class="quality-download-head">
+        <div><h2>انتخاب کیفیت</h2><p>کیفیت دلخواه را برای تماشا یا دانلود انتخاب کنید.</p></div>
+      </div>
+      <div class="quality-download-grid">
+        {% for variant in variants %}
+          <div class="quality-download-item">
+            <strong>{{ variant.quality }}</strong>
+            {% if variant.file_size %}<small>{{ (variant.file_size / 1048576)|round(1) }} مگابایت</small>{% endif %}
+            <a class="btn btn-primary" href="{{ url_for('main.download_variant', variant_id=variant.id) }}">دانلود {{ variant.quality }}</a>
+          </div>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+  </div>
+
+  {% if episodes %}
+  <aside class="playlist">
+    <h3>قسمت‌ها</h3>
+    {% for ep in episodes %}
+      <a class="playlist-item {% if episode and episode.id == ep.id %}active{% endif %}" href="{{ url_for('main.watch', slug=item.slug, episode=ep.id) }}">
+        <span>قسمت {{ ep.episode_number }}</span><small>{{ ep.duration_minutes or '—' }} دقیقه</small>
+      </a>
+    {% endfor %}
+  </aside>
+  {% endif %}
+</section>
+{% endblock %}
